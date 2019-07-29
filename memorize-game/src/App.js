@@ -1,30 +1,28 @@
-
 import React, { Component } from "react";
 import Navbar from "./components/Navbar";
 import Jumbotron from "./components/Jumbotron";
 import FriendCard from "./components/FriendCard";
-import Footer from "./components/Footer";
-import fish from "./fish.json";
+import mariokart from "./mariokart.json";
 import "./App.css";
 
 class App extends Component {
   state = {
-    fish,
-    clickedFish: [],
+    mariokart,
+    clickedmariokart: [],
     score: 0
   };
 
   imageClick = event => {
-    const currentFish = event.target.alt;
-    const FishAlreadyClicked =
-      this.state.clickedFish.indexOf(currentFish) > -1;
+    const currentMariokart = event.target.alt;
+    const MariokartAlreadyClicked =
+      this.state.clicked.indexOf(currentMariokart) > -1;
 
-    if (FishAlreadyClicked) {
+    if (MariokartAlreadyClicked) {
       this.setState({
-        fish: this.state.fish.sort(function (a, b) {
+        mariokart: this.state.mariokart.sort(function (a, b) {
           return 0.5 - Math.random();
         }),
-        clickedFish: [],
+        clickedmariokart: [],
         score: 0
       });
       alert("You lose. Play again?");
@@ -32,11 +30,11 @@ class App extends Component {
     } else {
       this.setState(
         {
-          fish: this.state.fish.sort(function (a, b) {
+          mariokart: this.state.mariokart.sort(function (a, b) {
             return 0.5 - Math.random();
           }),
-          clickedFish: this.state.clickedFish.concat(
-            currentFish
+          clickedmariokart: this.state.clickedmariokart.concat(
+            currentmariokart
           ),
           score: this.state.score + 1
         },
@@ -45,10 +43,10 @@ class App extends Component {
           if (this.state.score === 12) {
             alert("Yay! You Win!");
             this.setState({
-              fish: this.state.fish.sort(function (a, b) {
+              mariokart: this.state.mariokart.sort(function (a, b) {
                 return 0.5 - Math.random();
               }),
-              clickedFish: [],
+              clickedmariokart: [],
               score: 0
             });
           }
@@ -65,16 +63,15 @@ class App extends Component {
         />
         <Jumbotron />
         <div className="wrapper">
-          {this.state.fish.map(fish => (
+          {this.state.mariokart.map(mariokart => (
             <FriendCard
               imageClick={this.imageClick}
-              id={fish.id}
-              key={fish.id}
-              image={fish.image}
+              id={mariokart.id}
+              key={mariokart.id}
+              image={mariokart.image}
             />
           ))}
         </div>
-        <Footer />
       </div>
     );
   }

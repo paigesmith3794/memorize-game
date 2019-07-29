@@ -1,0 +1,50 @@
+[
+  {
+    "id": 1,
+    "image": "peach.jpeg"
+  },
+  {
+    "id": 2,
+    "image": "mario.jpeg"
+  },
+  {
+    "id": 3,
+    "image": "wario.jpeg"
+  },
+  {
+    "id": 4,
+    "image": "toad.jpeg"
+  },
+  {
+    "id": 5,
+    "image": "waluigi.jpeg"
+  },
+  {
+    "id": 6,
+    "image": "daisy.jpeg"
+  },
+  {
+    "id": 7,
+    "image": "dk.jpeg"
+  },
+  {
+    "id": 8,
+    "image": "bowser.jpeg"
+  },
+  {
+    "id": 9,
+    "image": "yoshi.jpeg"
+  },
+  {
+    "id": 10,
+    "image": "kingboo.jpeg"
+  },
+  {
+    "id": 11,
+    "image": "babymario.jpeg"
+  },
+  {
+    "id": 12,
+    "image": "koopatroopa.jpeg"
+  }
+]
