@@ -1,79 +1,94 @@
 import React, { Component } from "react";
 import Navbar from "./components/Navbar";
+import Container from "../src/components/Container";
 import Jumbotron from "./components/Jumbotron";
 import FriendCard from "./components/FriendCard";
 import mariokart from "./mariokart.json";
 import "./App.css";
 
-class App extends Component {
+
+class Game extends Component {
+
   state = {
     mariokart,
-    clickedmariokart: [],
-    score: 0
+    score: 0,
+    topScore: 0,
+    message: "Click as many images as you can without repeating"
   };
 
-  imageClick = event => {
-    const currentMariokart = event.target.alt;
-    const MariokartAlreadyClicked =
-      this.state.clicked.indexOf(currentMariokart) > -1;
+  componentDidMount() {
+    this.setState({ mariokart: this.shuffleDeck(this.state.mariokart) });
+  }
 
-    if (MariokartAlreadyClicked) {
-      this.setState({
-        mariokart: this.state.mariokart.sort(function (a, b) {
-          return 0.5 - Math.random();
-        }),
-        clickedmariokart: [],
-        score: 0
-      });
-      alert("You lose. Play again?");
+  shuffleDeck = mariokart => {
+    let newMariokart = mariokart.sort(function (a, b) { return 0.5 - Math.random() });
+    return newMariokart;
+  };
 
-    } else {
-      this.setState(
-        {
-          mariokart: this.state.mariokart.sort(function (a, b) {
-            return 0.5 - Math.random();
-          }),
-          clickedmariokart: this.state.clickedmariokart.concat(
-            currentmariokart
-          ),
-          score: this.state.score + 1
-        },
+  resetDeck = mariokart => {
+    const resetMariokart = mariokart.map(item => ({ ...item, clicked: false }));
+    return this.shuffleDeck(resetMariokart);
+  };
 
-        () => {
-          if (this.state.score === 12) {
-            alert("Yay! You Win!");
-            this.setState({
-              mariokart: this.state.mariokart.sort(function (a, b) {
-                return 0.5 - Math.random();
-              }),
-              clickedmariokart: [],
-              score: 0
-            });
-          }
+  correctGuess = newMariokart => {
+    let newScore = this.state.score;
+    newScore++
+    let newTopScore = Math.max(newScore, this.state.topScore);
+
+    this.setState({
+      mariokart: this.shuffleDeck(newMariokart),
+      score: newScore,
+      topScore: newTopScore,
+      animation: "animated swing"
+    })
+  }
+
+  wrongGuess = newMariokart => {
+    this.setState({
+      mariokart: this.resetDeck(newMariokart),
+      score: 0
+    })
+  }
+
+  gameCardClick = id => {
+    let guessedCorrectly = false;
+
+    const newMariokart = this.state.mariokart.map(item => {
+      if (item.id === id) {
+        if (!item.clicked) {
+          item.clicked = true;
+          guessedCorrectly = true;
         }
-      );
-    }
+      }
+      return item;
+    });
+    guessedCorrectly ? this.correctGuess(newMariokart) : this.wrongGuess(newMariokart);
   };
 
   render() {
     return (
-      <div>
-        <Navbar
-          score={this.state.score}
-        />
-        <Jumbotron />
-        <div className="wrapper">
-          {this.state.mariokart.map(mariokart => (
-            <FriendCard
-              imageClick={this.imageClick}
-              id={mariokart.id}
-              key={mariokart.id}
-              image={mariokart.image}
-            />
-          ))}
-        </div>
+      <div className="animated fadeIn">
+        <Navbar score={this.state.score} topScore={this.state.topScore} />
+        <Jumbotron message={this.state.message} />
+        <Container>
+          {
+            this.state.mariokart.map(item => (
+              <div className="animated rollIn">
+                <FriendCard
+                  key={item.id}
+                  id={item.id}
+                  image={item.image}
+                  animate={!this.state.score && this.state.topScore}
+                  clicked={item.clicked}
+                  handleClick={this.gameCardClick}
+                />
+              </div>
+            ))
+          }
+        </Container>
       </div>
     );
   }
 }
-export default App;
+
+export default Game;
