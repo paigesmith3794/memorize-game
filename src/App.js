@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import Navbar from "./components/Navbar";
-import Container from "../src/components/Container";
+import Container from "./components/Container";
 import Jumbotron from "./components/Jumbotron";
 import FriendCard from "./components/FriendCard";
-import mariokart from "./mariokart.json";
+import mariokart from "./mariokart.json.js";
 import "./App.css";
 
 
